@@ -5,7 +5,7 @@ import joblib
 import numpy as np
 
 params_path = "params.yaml"
-webapp_root = "webmodel"
+webapp_root = "webapp"
 
 static_dir = os.path.join(webapp_root, "static")
 template_dir = os.path.join(webapp_root, "templates")
