@@ -1,6 +1,7 @@
 import yaml
 import os
 import json
+import joblib
 import numpy as np
 
 params_path = "params.yaml"
@@ -63,6 +64,7 @@ def validate_input(dict_request):
 
     return True
 
+
 def form_response(dict_request):
     if validate_input(dict_request):
         data = dict_request.values()
@@ -70,14 +72,20 @@ def form_response(dict_request):
         response = predict(data)
         return response
 
+
 def api_response(dict_request):
     try:
         if validate_input(dict_request):
-            data = np.array([list(dict_request())])
+            data = np.array([list(dict_request.values())])
             response = predict(data)
             response = {"response" : response}
             return response
+
+    except NotInCols as e:
+        response = {"the_expected_cols": get_schema().keys(), "response": str(e)}
+        return response
+
     except Exception as e:
-        response = {"the_expected_range" : get_schema(), "response" : str(e)}
+        response = {"response": str(e)}
         return response
 
